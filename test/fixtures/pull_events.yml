@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  site_id: 1
+  pull_at: 2012-12-09 10:59:14
+  success_at: 2012-12-09 10:59:14
+  state_uuid: MyString
+
+two:
+  site_id: 1
+  pull_at: 2012-12-09 10:59:14
+  success_at: 2012-12-09 10:59:14
+  state_uuid: MyString

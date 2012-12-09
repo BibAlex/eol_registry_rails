@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  current_uuid: MyString
+  url: MyString
+  auth_code: MyString
+  response_url: MyString
+
+two:
+  name: MyString
+  current_uuid: MyString
+  url: MyString
+  auth_code: MyString
+  response_url: MyString
