@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+require Rails.root.join('spec', 'eol_factory_girl')
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -35,4 +36,26 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+end
+
+def truncate_all_tables(options = {})
+  options[:skip_empty_tables] = true if options[:skip_empty_tables].nil?
+  options[:verbose] ||= false
+
+  count = 0
+  ActiveRecord::Base.connection.tables.each do |table|
+    unless table == 'schema_migrations'
+      count += 1
+      truncate_table(ActiveRecord::Base.connection, table, options[:skip_empty_tables])      
+    end
+  end
+  puts "-- Truncated #{count} tables in #{ActiveRecord::Base.connection.instance_eval { @config[:database] }}." if options[:verbose]
+
+  Rails.cache.clear if Rails.cache
+end
+
+def truncate_table(conn, table, skip_if_empty)
+  # run_command = skip_if_empty ? conn.execute("SELECT 1 FROM #{table} LIMIT 1").num_rows > 0 : true
+  # conn.execute "TRUNCATE TABLE `#{table}`" if run_command
+  conn.execute "TRUNCATE TABLE `#{table}`"
 end

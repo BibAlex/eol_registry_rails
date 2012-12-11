@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121209094045) do
+ActiveRecord::Schema.define(:version => 20121211101824) do
 
   create_table "log_action_parameters", :force => true do |t|
     t.integer  "peer_log_id"
