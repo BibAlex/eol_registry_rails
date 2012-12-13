@@ -8,7 +8,9 @@ class PushRequest < ActiveRecord::Base
 
   before_create :generate_uuid
 
-
+  def self.registry_is_busy?
+  	self.where("success is null").count > 0
+  end
 
 
   private
