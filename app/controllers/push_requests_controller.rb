@@ -1,6 +1,6 @@
 class PushRequestsController < ApplicationController
   def make_push
-  	auth_code = params[:auth_code]
+    auth_code = params[:auth_code]
     current_uuid = params[:current_uuid]
     file_url = params[:file_url]
     file_md5_hash = params[:file_md5_hash]
@@ -49,24 +49,24 @@ class PushRequestsController < ApplicationController
   end
 
   def query
-  	uuid = params[:uuid]
+    uuid = params[:uuid]
 
-  	unless uuid  		
-  		@message = view_context.error_message_to_json('Missing uuid')
-  		render :json => @message
-  		return
-  	end
+    unless uuid      
+      @message = view_context.error_message_to_json('Missing uuid')
+      render :json => @message
+      return
+    end
 
-  	push_request = PushRequest.find_by_uuid(uuid)
+    push_request = PushRequest.find_by_uuid(uuid)
 
-  	unless push_request
-  		# invalid uuid
-  		@message = view_context.error_message_to_json('Invalid uuid')
-  		render :json => @message
-  		return
-  	end
+    unless push_request
+      # invalid uuid
+      @message = view_context.error_message_to_json('Invalid uuid')
+      render :json => @message
+      return
+    end
 
-  	# render object
-  	render :json => view_context.send_status_to_node(push_request)
+    # render object
+    render :json => view_context.send_status_to_node(push_request)
   end
 end

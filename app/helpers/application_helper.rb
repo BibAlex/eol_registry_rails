@@ -1,20 +1,20 @@
 module ApplicationHelper
   def error_message_to_json(message)
-  	arr = {}
-  	arr[:success] = 0
-  	arr[:message] = message
+    arr = {}
+    arr[:success] = 0
+    arr[:message] = message
 
-  	arr.to_json
+    arr.to_json
   end
 
   def send_processing_to_node(uuid, received_at)
-  	arr = {}
-  	arr[:success] = ''
-  	arr[:message] = 'processing'
+    arr = {}
+    arr[:success] = ''
+    arr[:message] = 'processing'
     arr['uuid'] = uuid
     arr['received_at'] = received_at
 
-  	arr.to_json
+    arr.to_json
   end
 
   def send_status_to_node(push_request)

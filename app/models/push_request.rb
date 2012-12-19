@@ -9,14 +9,14 @@ class PushRequest < ActiveRecord::Base
   before_create :generate_uuid
 
   def self.registry_is_busy?
-  	self.where("success is null").count > 0
+    self.where("success is null").count > 0
   end
 
 
   private
 
-	  def generate_uuid
-	    self.uuid = UUIDTools::UUID.timestamp_create().to_s unless self.uuid?
-	  end
+    def generate_uuid
+      self.uuid = UUIDTools::UUID.timestamp_create().to_s unless self.uuid?
+    end
 
 end
