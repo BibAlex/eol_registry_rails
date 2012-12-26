@@ -3,6 +3,7 @@ require 'uri'
 require 'socket'
 require 'digest/md5'
 
+
 module EOL
 	class PushesProcessor
 		def self.process_pushes
@@ -11,31 +12,32 @@ module EOL
 				puts "Nothing to process"				
 			else					
 				# Now start processing pushes
+				puts "Processing pushes"
 				requests.each do |request|
 					process_push(request)
 				end
 			end
 		end
-
+    
 		def self.process_push(request)
 			file_url = Rails.root.join("log", "sync_logs", "#{request.id}")
 
-			# download the log file, break if no success
-			unless download_file?(request.file_url, "#{file_url}.#{json}")
+			# download the log file, render :nothing => true if no success
+			unless download_file?(request.file_url, "#{file_url}.json")
 				report_failure(request, "Error downloading file: #{request.file_url}")
-				break
+				render :nothing => true
 			end
 
-			# download the md5 file, break if no success
-			unless download_file?(request.file_md5_hash, "#{file_url}.#{md5}")
+			# download the md5 file, render :nothing => true if no success
+			unless download_file?(request.file_md5_hash, "#{file_url}.md5")
 				report_failure(request, "Error downloading file: #{request.file_md5_hash}")
-				break
+				render :nothing => true
 			end
 
 			# validate the md5 checksum
-			unless validate_md5?("#{file_url}.#{json}", "#{file_url}.#{md5}")
+			unless validate_md5?("#{file_url}.json", "#{file_url}.md5")
 				report_failure(request, "Invalid md5 checksum")
-				break
+				render :nothing => true
 			end 
 
 			# Now, all checks are done. 
@@ -86,27 +88,29 @@ module EOL
 			file_url = Rails.root.join("log", "sync_logs", "#{request.id}.json")
 			data = File.read(file_url)			
 			data_json = JSON.parse(data)
+			
+			
 
 			data_json.each do |data_element|
-				peer_log = Peerlog.new
+				peer_log = PeerLog.new
 				peer_log.push_request_id = request.id
-				peer_log.user_site_id = data_element.user_site_id
-				peer_log.user_site_object_id = data_element.user_site_object_id
-				peer_log.action_taken_at_time = data_element.action_taken_at_time
-				peer_log.sync_object_action_id = data_element.sync_object_action_id
-				peer_log.sync_object_type_id = data_element.sync_object_type_id
-				peer_log.sync_object_id = data_element.sync_object_id
-				peer_log.sync_object_site_id = data_element.sync_object_site_id
+				peer_log.user_site_id = data_element["user_site_id"]
+				peer_log.user_site_object_id = data_element["user_site_object_id"]
+				peer_log.action_taken_at_time = data_element["action_taken_at_time"]
+				peer_log.sync_object_action_id = data_element["sync_object_action_id"]
+				peer_log.sync_object_type_id = data_element["sync_object_type_id"]
+				peer_log.sync_object_id = data_element["sync_object_id"]
+				peer_log.sync_object_site_id = data_element["sync_object_site_id"]
 
 				peer_log.save
 
-				data_element.parameters.each do |param|
+				data_element["parameters"].each do |param|
 					lap = LogActionParameter.new
-					lap.peer_log_id = peer_log.id;
-					lap.param_object_id = param.param_object_id;
-					lap.param_object_site_id = param.param_object_site_id;
-					lap.parameter = param.parameter;
-					lap.value = param.value;
+					lap.peer_log_id = peer_log.id
+					lap.param_object_id = param["param_object_id"]
+					lap.param_object_site_id = param["param_object_site_id"]
+					lap.parameter = param["parameter"]
+					lap.value = param["value"]
 
 					lap.save					
 				end
