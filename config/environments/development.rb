@@ -35,3 +35,5 @@ EolRegistryRails::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 end
+
+REGISTRY_URL = 'http://localhost:3000/'

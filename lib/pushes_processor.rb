@@ -8,7 +8,7 @@ module EOL
 	class PushesProcessor
 		def self.process_pushes
 			requests = PushRequest.where('success is null')
-			unless requests
+			unless requests.count > 0
 				puts "Nothing to process"				
 			else					
 				# Now start processing pushes
@@ -57,7 +57,10 @@ module EOL
 
 		def self.report_success(request)
 			request.success = 1
-			request.success_at = DateTime.now
+			request.success_at = DateTime.now		
+			site = Site.find_by_id(request.site_id)
+      site.current_uuid = request.uuid
+      site.save
 			request.save
 		end
 
@@ -97,8 +100,8 @@ module EOL
 				peer_log.user_site_id = data_element["user_site_id"]
 				peer_log.user_site_object_id = data_element["user_site_object_id"]
 				peer_log.action_taken_at_time = data_element["action_taken_at_time"]
-				peer_log.sync_object_action_id = data_element["sync_object_action_id"]
-				peer_log.sync_object_type_id = data_element["sync_object_type_id"]
+				peer_log.sync_object_action_id = SyncObjectAction.find_or_create_by_object_action(data_element["object_action"]).id
+				peer_log.sync_object_type_id = SyncObjectType.find_or_create_by_object_type(data_element["object_type"]).id
 				peer_log.sync_object_id = data_element["sync_object_id"]
 				peer_log.sync_object_site_id = data_element["sync_object_site_id"]
 
