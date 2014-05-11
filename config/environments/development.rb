@@ -37,3 +37,5 @@ EolRegistryRails::Application.configure do
 end
 
 REGISTRY_URL = 'http://localhost:3000/'
+AUTH_CODE = '4371149c-9250-11e3-a9d6-000ffe473aab'
+INIT_UUID = '66d6bcae-93b1-11e3-9841-000ffe473aab'

@@ -46,5 +46,22 @@ class ApplicationController < ActionController::Base
     # TODO: if this check fails, then this node is out of sync. we need to figure out a procedure to fix this!
     return render_error(401, 'Invalid current_uuid') unless @site.current_uuid == params[:current_uuid]
   end
+  
+  def validate_pull_request
+    return render_error(405, 'Another pull is in progress') if @site.unprocessed_pulls.count > 0
+    latest_successful_push = PushRequest.latest_successful_push
+    return render_error(208, 'Nothing to pull') if latest_successful_push.nil? || @site.current_uuid == latest_successful_push.uuid 
+  end
+  
+  def validate_report_request
+    uuid = params[:uuid]
+    success = params[:success]
+    # get the Pull
+    pull_event = PullEvent.find_by_site_id_and_state_uuid_and_success(@site.id, uuid, nil)
+    return render_error(400, 'Missing parameters') if uuid.blank? || success.blank?
+    return render_error(406, 'Invalid Pull') unless pull_event
+    # the pull had already succeeded or failed
+    return render_error(406, 'Pull has already been completed') if pull_event.success
+  end
 
 end

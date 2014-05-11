@@ -6,8 +6,9 @@ gem 'rails', '3.2.7'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-
-
+group :development, :test do
+  gem 'debugger' # Clearly, this is for debugging.  :)
+end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
