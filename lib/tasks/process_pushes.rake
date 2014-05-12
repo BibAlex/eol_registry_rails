@@ -15,7 +15,7 @@ namespace :sync do
 	desc 'Create an empty push as a start'
   task :create_empty_push => :environment do
     pr = PushRequest.new
-    pr.success = 1
+    pr.success = true
     pr.save
     
     sites = Site.all

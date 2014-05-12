@@ -11,7 +11,7 @@ class PushRequest < ActiveRecord::Base
   end
 
   def self.latest_successful_push
-    PushRequest.where('success = 1').order('id DESC').first rescue nil
+    PushRequest.where('success is true').order('id DESC').first rescue nil
   end
 
   private

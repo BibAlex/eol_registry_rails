@@ -9,7 +9,7 @@ class CreatePushRequests < ActiveRecord::Migration
       t.datetime :failed_at
       t.string :failed_reason
       t.string :uuid
-      t.integer :success
+      t.boolean :success
 
       t.timestamps
     end

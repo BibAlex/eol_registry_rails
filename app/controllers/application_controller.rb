@@ -51,7 +51,13 @@ class ApplicationController < ActionController::Base
     # the pull had already succeeded or failed
     return render_error(406, 'Pull has already been completed') if pull_event.success
   end
-  private
+  
+  def validate_push_uuid
+    return render_error(400, 'Missing uuid') if params[:uuid].blank?
+    push_request = PushRequest.find_by_uuid(params[:uuid])
+    return render_error(401, 'Invalid uuid') unless push_request
+    push_request
+  end
   
   def set_response_format_to_json
     request.format = "json"

@@ -24,7 +24,7 @@ module EOL
 
 			# download the log file, render :nothing => true if no success
 			unless download_file?(request.file_url, "#{file_url}.json")
-				report_failure(request, "Error downloading file: #{request.file_url}")
+			  report_failure(request, "Error downloading file: #{request.file_url}")
 				render :nothing => true
 			end
 
@@ -49,14 +49,14 @@ module EOL
 		end
 
 		def self.report_failure(request, message)
-			request.success = 0
+			request.success = false
 			request.failed_at = DateTime.now
 			request.failed_reason = message
 			request.save
 		end
 
 		def self.report_success(request)
-			request.success = 1
+			request.success = true
 			request.success_at = DateTime.now		
 			site = Site.find_by_id(request.site_id)
       site.current_uuid = request.uuid

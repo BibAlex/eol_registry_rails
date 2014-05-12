@@ -11,5 +11,6 @@ module PushRequestsHelper
       push_request.file_md5_hash = file_md5_hash
       push_request.received_at = DateTime.now
       push_request.save
+      push_request
     end
 end

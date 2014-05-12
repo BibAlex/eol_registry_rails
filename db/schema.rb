@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(:version => 20140210140049) do
     t.datetime "failed_at"
     t.string   "failed_reason"
     t.string   "uuid"
-    t.integer  "success"
+    t.boolean  "success"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
