@@ -1,6 +1,6 @@
 class PeerLog < ActiveRecord::Base
 
-  attr_accessible :action_taken_at_time, :push_request_id, :sync_object_action_id, :sync_object_id,
+  attr_accessible :action_taken_at, :push_request_id, :sync_object_action_id, :sync_object_id,
                   :sync_object_site_id, :sync_object_type_id, :user_site_id, :user_site_object_id
 
   belongs_to :push_request
@@ -32,7 +32,7 @@ private
     log_hash = {
       :user_site_id => peer_log.user_site_id,
       :user_site_object_id => peer_log.user_site_object_id,
-      :action_taken_at_time => peer_log.action_taken_at_time,
+      :action_taken_at => peer_log.action_taken_at,
       :sync_object_action => peer_log.sync_object_action.object_action,
       :sync_object_type => peer_log.sync_object_type.object_type,
       :sync_object_id => peer_log.sync_object_id,

@@ -99,7 +99,7 @@ module EOL
 				peer_log.push_request_id = request.id
 				peer_log.user_site_id = data_element["user_site_id"]
 				peer_log.user_site_object_id = data_element["user_site_object_id"]
-				peer_log.action_taken_at_time = data_element["action_taken_at_time"]
+				peer_log.action_taken_at = data_element["action_taken_at"]
 				peer_log.sync_object_action_id = SyncObjectAction.find_or_create_by_object_action(data_element["object_action"]).id
 				peer_log.sync_object_type_id = SyncObjectType.find_or_create_by_object_type(data_element["object_type"]).id
 				peer_log.sync_object_id = data_element["sync_object_id"]

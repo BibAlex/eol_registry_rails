@@ -29,28 +29,28 @@ describe PushRequestsController do
       post 'create', :current_uuid => "uuid_123",
                      :file_url => "file.json",
                      :file_md5_hash => "file.md5"
-      response.code.should == "400"
+      response.code.should == "400" # response code '400' missing auth code
     end
 
     it "should have current uuid" do
       post 'create', :auth_code => "auth_1",
                      :file_url => "file.json",
                      :file_md5_hash => "file.md5"
-      response.code.should == "400"
+      response.code.should == "400" # response code '400' missing current uuid
     end
 
     it "should have file url" do
       post 'create', :auth_code => "auth_1",
                      :current_uuid => "uuid_123",
                      :file_md5_hash => "file.md5"
-      response.code.should == "400"
+      response.code.should == "400" # response code '400' missing file url
     end
 
     it "should have file hash url" do
       post 'create', :auth_code => "auth_1",
                      :current_uuid => "uuid_123",
                      :file_url => "file.json"
-      response.code.should == "400"
+      response.code.should == "400" # response code '400' missing file hash url 
     end
 
     it "file url should not be blank" do
@@ -58,7 +58,7 @@ describe PushRequestsController do
                      :current_uuid => "uuid_123",
                      :file_url => "",
                      :file_md5_hash => "file.md5"
-      response.code.should == "400"
+      response.code.should == "400" # response code '400' missing file url(blank file url)
     end
 
     it "file hash url should not be blank" do
@@ -66,21 +66,21 @@ describe PushRequestsController do
                      :current_uuid => "uuid_123",
                      :file_url => "file.json",
                      :file_md5_hash => ""
-      response.code.should == "400"
+      response.code.should == "400" # response code '400' missing file hash url (blank file hash url)
     end
 
     it "should not accept invalid auth code" do
       post 'create', :auth_code => "invalid_auth_code", :current_uuid => "uuid_123",
                      :file_url => "file.json",
                      :file_md5_hash => "file.md5"
-      response.code.should == "401"
+      response.code.should == "401" # response code '401' invalid auth code
     end
 
     it "should not accept invalid current uuid" do
       post 'create', :auth_code => "auth_1", :current_uuid => "invalid_uuid",
                      :file_url => "file.json",
                      :file_md5_hash => "file.md5"
-      response.code.should == "401"
+      response.code.should == "401" # response code '401' invalid current uuid
     end
 
     it "push request should not success if registry is busy" do
@@ -88,7 +88,7 @@ describe PushRequestsController do
       post 'create', :auth_code => "auth_1", :current_uuid => "uuid_123",
                      :file_url => "file.json",
                      :file_md5_hash => "file.md5"
-      response.code.should == "405"
+      response.code.should == "405" # response code '405' registry is busy
     end
 
     it "should pull first" do
@@ -97,7 +97,7 @@ describe PushRequestsController do
       post 'create', :auth_code => "auth_1", :current_uuid => "uuid_123",
                      :file_url => "file.json",
                      :file_md5_hash => "file.md5"
-      response.code.should == "409"
+      response.code.should == "409" # response code '409' pull first
     end
   end
 
@@ -126,12 +126,12 @@ describe PushRequestsController do
 
     it "should have uuid" do
       get 'show'
-      response.code.should == "400"
+      response.code.should == "400" # response code '400' missing uuid
     end
 
     it "should not accept invalid uuid" do
       get 'show', :uuid => "uuid_126"
-      response.code.should == "401"
+      response.code.should == "401" # response code '401' invalid uuid
     end
   end
 
