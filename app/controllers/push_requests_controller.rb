@@ -21,4 +21,8 @@ class PushRequestsController < ApplicationController
            :failed_reason => (push_request.failed_reason if !push_request.success)}
     render :json => resp_arr.to_json
   end
+  
+  def new
+    
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140210140049) do
+ActiveRecord::Schema.define(:version => 20140514130259) do
 
   create_table "log_action_parameters", :force => true do |t|
     t.integer  "peer_log_id"
@@ -44,9 +44,11 @@ ActiveRecord::Schema.define(:version => 20140210140049) do
     t.string   "state_uuid"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-    t.integer  "success"
+    t.boolean  "success"
     t.string   "file_url"
     t.string   "file_md5_hash"
+    t.datetime "failed_at"
+    t.string   "failed_reason"
   end
 
   create_table "push_requests", :force => true do |t|
