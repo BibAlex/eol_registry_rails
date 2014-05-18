@@ -46,7 +46,7 @@ module FactoryGirlActiveRecordBaseExtensions
         # we need to create a translation
         # sometimes the default language is not set, so we set it here
         if !searchable_translation_attributes['language_id']
-          l = Language.gen_if_not_exists(:iso_639_1 => APPLICATION_DEFAULT_LANGUAGE_ISO)
+          l = Language.gen_if_not_exists(iso_639_1: APPLICATION_DEFAULT_LANGUAGE_ISO)
           searchable_translation_attributes['language_id'] = l.id
         end
         

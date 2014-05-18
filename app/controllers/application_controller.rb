@@ -16,14 +16,14 @@ class ApplicationController < ActionController::Base
     # 406 -> Invalid Request
     # 409 -> Pull first
     respond_to do |format|
-      #format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: http_status, :locals => { :exception => exception } }
+      #format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: http_status, locals: { exception: exception } }
       format.json {
         json_hash = {
-          :success => false,
-          :message => message }
-        render :json => json_hash.to_json, :status => http_status
+          success: false,
+          message: message }
+        render json: json_hash.to_json, status: http_status
       }
-      #format.all { render template: "errors/error_#{status}", layout: 'layouts/application', status: http_status, :locals => { :exception => exception } }
+      #format.all { render template: "errors/error_#{status}", layout: 'layouts/application', status: http_status, locals: { exception: exception } }
     end
   end
 

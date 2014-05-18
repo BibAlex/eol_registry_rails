@@ -15,9 +15,10 @@ describe PullRequestsController do
       expect(response).to be_success
     end
 
+
     it "should return pull attributes" do
-      latest_successful_push_request = PushRequest.create(:site_id => @push_site.id, :success => true, :uuid => "uuid_124")
-      get 'pull', :auth_code => "auth_1", :current_uuid => "uuid_123"
+      latest_successful_push_request = PushRequest.create(site_id: @push_site.id, success: true, uuid: "uuid_124")
+      get 'pull', auth_code: "auth_1", current_uuid: "uuid_123"
       body = JSON.parse(response.body)
       expect(body['UUID']).to eq("uuid_124")
     end
@@ -53,13 +54,13 @@ describe PullRequestsController do
       get 'pull', :auth_code => "auth_1", :current_uuid => "uuid_123"
       expect(response.code).to eq("405") # response code '405' Another pull is in progress
     end
-
+    
     after(:all) do
       @site.destroy
       @empty_push.destroy
       @push_site.destroy
     end
-
+    
   end
 
   describe "GET 'report'" do
@@ -77,7 +78,15 @@ describe PullRequestsController do
     it "response should return true if pull success" do
       pull_event = PullEvent.create(:site_id => @site.id, :state_uuid => "uuid_123")
       get 'report', :auth_code => "auth_1", :uuid => "uuid_123", :reason => "", :success => "1"
-      expect(response).to be_success
+      expect(response).to be_success      
+    end
+
+   
+
+    it "response should return true if pull success" do
+      pull_event = PullEvent.create(site_id: @site.id, state_uuid: "uuid_123")
+      get 'report', auth_code: "auth_1", uuid: "uuid_123", reason: "", success: "1"
+      response.should be_success
       body = JSON.parse(response.body)
       expect(body['success']).to eq(true)
     end
@@ -117,7 +126,7 @@ describe PullRequestsController do
       get 'report', :auth_code => "auth_1", :uuid => "uuid_123", :reason => "", :success => "1"
       expect(response.code).to eq("406") # response code '406' Pull has already been completed
     end
-
+    
     after(:all) do
       @site.destroy
     end

@@ -22,22 +22,22 @@ module EOL
 		def self.process_push(request)
 			file_url = Rails.root.join("log", "sync_logs", "#{request.id}")
 
-			# download the log file, render :nothing => true if no success
+			# download the log file, render nothing: true if no success
 			unless download_file?(request.file_url, "#{file_url}.json")
 			  report_failure(request, "Error downloading file: #{request.file_url}")
-				render :nothing => true
+				render nothing: true
 			end
 
-			# download the md5 file, render :nothing => true if no success
+			# download the md5 file, render nothing: true if no success
 			unless download_file?(request.file_md5_hash, "#{file_url}.md5")
 				report_failure(request, "Error downloading file: #{request.file_md5_hash}")
-				render :nothing => true
+				render nothing: true
 			end
 
 			# validate the md5 checksum
 			unless validate_md5?("#{file_url}.json", "#{file_url}.md5")
 				report_failure(request, "Invalid md5 checksum")
-				render :nothing => true
+				render nothing: true
 			end 
 
 			# Now, all checks are done. 
@@ -95,27 +95,25 @@ module EOL
 			
 
 			data_json.each do |data_element|
-				peer_log = PeerLog.new
-				peer_log.push_request_id = request.id
-				peer_log.user_site_id = data_element["user_site_id"]
-				peer_log.user_site_object_id = data_element["user_site_object_id"]
-				peer_log.action_taken_at = data_element["action_taken_at"]
-				peer_log.sync_object_action_id = SyncObjectAction.find_or_create_by_object_action(data_element["object_action"]).id
-				peer_log.sync_object_type_id = SyncObjectType.find_or_create_by_object_type(data_element["object_type"]).id
-				peer_log.sync_object_id = data_element["sync_object_id"]
-				peer_log.sync_object_site_id = data_element["sync_object_site_id"]
-
-				peer_log.save
-
+				peer_log = PeerLog.create(
+				push_request_id: request.id,
+				user_site_id: data_element["user_site_id"],
+				user_site_object_id: data_element["user_site_object_id"],
+				action_taken_at: data_element["action_taken_at"],
+				sync_object_action_id: SyncObjectAction.find_or_create_by_object_action(data_element["object_action"]).id,
+				sync_object_type_id: SyncObjectType.find_or_create_by_object_type(data_element["object_type"]).id,
+				sync_object_id: data_element["sync_object_id"],
+				sync_object_site_id: data_element["sync_object_site_id"]
+				)
+				
 				data_element["parameters"].each do |param|
-					lap = LogActionParameter.new
-					lap.peer_log_id = peer_log.id
-					lap.param_object_id = param["param_object_id"]
-					lap.param_object_site_id = param["param_object_site_id"]
-					lap.parameter = param["parameter"]
-					lap.value = param["value"]
-
-					lap.save					
+					LogActionParameter.create(
+					peer_log_id: peer_log.id,
+					param_object_id: param["param_object_id"],
+					param_object_site_id: param["param_object_site_id"],
+					parameter: param["parameter"],
+					value: param["value"]
+					)
 				end
 			end
 		end

@@ -3,8 +3,8 @@ class Site < ActiveRecord::Base
 
   has_many :pull_events
   has_many :push_requests
-  belongs_to :current_state_push_request, :class_name => 'PushRequest', 
-    :foreign_key => :current_uuid, :primary_key => :uuid
+  belongs_to :current_state_push_request, class_name: 'PushRequest', 
+    foreign_key: :current_uuid, primary_key: :uuid
 
   before_create :generate_auth_code
 

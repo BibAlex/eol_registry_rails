@@ -11,7 +11,7 @@ describe PushRequest do
 
   it 'should accept push and send uuid' do
     # create a site
-    site = Site.gen(:auth_code => "test_123")
+    site = Site.gen(auth_code: "test_123")
 
     # create an empty push
     push_request = PushRequest.create(:success => true)

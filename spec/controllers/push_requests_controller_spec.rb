@@ -17,9 +17,9 @@ describe PushRequestsController do
     end
 
     it "should return push request uuid  push when push success" do
-      post 'create', :auth_code => "auth_1", :current_uuid => "uuid_123",
-                     :file_url => "file.json",
-                     :file_md5_hash => "file.md5"
+      post 'create', auth_code: "auth_1", current_uuid: "uuid_123",
+                     file_url: "file.json",
+                     file_md5_hash: "file.md5"
       body = JSON.parse(response.body)
       expect(body['uuid']).not_to be_nil
     end
@@ -120,7 +120,7 @@ describe PushRequestsController do
     end
 
     it "response should return true when push success" do
-      get 'show', :uuid => "uuid_124"
+      get 'show', uuid: "uuid_124"
       response.should be_success
       body = JSON.parse(response.body)
       expect(body['success']).to be_true
@@ -139,9 +139,9 @@ describe PushRequestsController do
     end
     
      after(:all) do
-      @site.destroy
-      @empty_push.destroy
-      @successful_push_request.destroy
-    end
+        @site.destroy
+        @empty_push.destroy
+        @successful_push_request.destroy
+      end
   end
 end

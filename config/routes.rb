@@ -1,8 +1,8 @@
 EolRegistryRails::Application.routes.draw do
   # TODO: there is no index page yet, so may as well throw a 404
-  root :to => 'errors#error_404'
+  root to: 'errors#error_404'
   
-#  resources :push_requests, :only => [:create, :show]
+#  resources :push_requests, only: [:create, :show]
 #  resources :push_requests do
 #    member do
 #      post 'create'
