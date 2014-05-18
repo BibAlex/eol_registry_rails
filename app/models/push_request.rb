@@ -7,11 +7,11 @@ class PushRequest < ActiveRecord::Base
   before_create :generate_uuid
 
   def self.pending
-    PushRequest.where('success is null')
+    PushRequest.where(success: nil)
   end
 
   def self.latest_successful_push
-    PushRequest.where('success is true').order('id DESC').first rescue nil
+    PushRequest.where(success: true).order('id DESC').first rescue nil
   end
 
   private

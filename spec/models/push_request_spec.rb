@@ -28,7 +28,11 @@ describe PushRequest do
     expect(latest_successful_push_requests.id).to eq(successful_push_request.id)
   end
 
-  it 'should generate uuid' do
-    expect(PushRequest.gen().uuid).not_to be_nil
+  it 'should generate uuid' do    
+    allow(UUIDTools::UUID).to receive(:timestamp_create) { "some_new_timestamp" }
+    generated_uuid = PushRequest.gen().uuid
+    expect(generated_uuid).not_to be_nil
+    expect(generated_uuid).to eq("some_new_timestamp")
+    expect(UUIDTools::UUID).to have_received(:timestamp_create)
   end
 end
