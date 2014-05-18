@@ -39,16 +39,16 @@ describe PeerLog do
   end
 
   it "should return available peer logs for pull" do
-    action = SyncObjectAction.create(:object_action => 'create')
-    type = SyncObjectType.create(:object_type => 'User')
-    first_site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_124")
-    second_site = Site.create(:auth_code => "auth_2", :current_uuid => "uuid_123")
-    empty_push = PushRequest.create(:success => true, :uuid => "uuid_123")
-    first_site_push = PushRequest.create(:site_id => first_site.id, :success => true, :uuid => "uuid_124")
-    first_peer_log = PeerLog.create(:push_request_id => first_site_push.id,
-    :sync_object_action_id => action.id, :sync_object_type_id => type.id)
-    second_peer_log = PeerLog.create(:push_request_id => first_site_push.id,
-    :sync_object_action_id => action.id, :sync_object_type_id => type.id)
+    action = SyncObjectAction.create(object_action: 'create')
+    type = SyncObjectType.create(object_type: 'User')
+    first_site = Site.create(auth_code: "auth_1", current_uuid: "uuid_124")
+    second_site = Site.create(auth_code: "auth_2", current_uuid: "uuid_123")
+    empty_push = PushRequest.create(success: true, uuid: "uuid_123")
+    first_site_push = PushRequest.create(site_id: first_site.id, success: true, uuid: "uuid_124")
+    first_peer_log = PeerLog.create(push_request_id: first_site_push.id,
+    sync_object_action_id: action.id, sync_object_type_id: type.id)
+    second_peer_log = PeerLog.create(push_request_id: first_site_push.id,
+    sync_object_action_id: action.id, sync_object_type_id: type.id)
     peer_logs = PeerLog.new_logs_for_site(second_site)
 
     # check returned peer logs

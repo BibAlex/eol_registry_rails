@@ -14,9 +14,9 @@ describe PushRequest do
   end
   
   it "should return pending push requests" do    
-    site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_123")
-    finished_push_request = PushRequest.create(:site_id => site.id, :success => true, :uuid => "uuid_123")
-    pending_push_request = PushRequest.create(:site_id => site.id, :success => nil, :uuid => "uuid_124")
+    site = Site.create(auth_code: "auth_1", current_uuid: "uuid_123")
+    finished_push_request = PushRequest.create(site_id: site.id, success: true, uuid: "uuid_123")
+    pending_push_request = PushRequest.create(site_id: site.id, success: nil, uuid: "uuid_124")
    
     pending_push_requests = PushRequest.pending
     pending_push_requests.count.should == 1
@@ -24,9 +24,9 @@ describe PushRequest do
   end
   
   it "should return latest successful push request" do
-    site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_123")
-    successful_push_request = PushRequest.create(:site_id => site.id, :success => true, :uuid => "uuid_123")
-    pending_push_request = PushRequest.create(:site_id => site.id, :success => nil, :uuid => "uuid_124")
+    site = Site.create(auth_code: "auth_1", current_uuid: "uuid_123")
+    successful_push_request = PushRequest.create(site_id: site.id, success: true, uuid: "uuid_123")
+    pending_push_request = PushRequest.create(site_id: site.id, success: nil, uuid: "uuid_124")
    
     latest_successful_push_requests = PushRequest.latest_successful_push
     latest_successful_push_requests.id.should == successful_push_request.id
@@ -36,5 +36,4 @@ describe PushRequest do
   it 'should generate uuid' do
     PushRequest.gen().uuid.should_not be_nil
   end
-
 end

@@ -13,8 +13,8 @@ describe PullEvent do
   end
 
   it "should set success attribute to true when pull success" do
-    site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_124")
-    pull_event = PullEvent.create(:site_id => site.id)
+    site = Site.create(auth_code: "auth_1", current_uuid: "uuid_124")
+    pull_event = PullEvent.create(site_id: site.id)
     
     # check updated pull event
     pull_event.succeed(site, "uuid_125")
@@ -26,8 +26,8 @@ describe PullEvent do
   end
   
   it "should set success attribute to false when pull fail" do
-    site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_124")
-    pull_event = PullEvent.create(:site_id => site.id)
+    site = Site.create(auth_code: "auth_1", current_uuid: "uuid_124")
+    pull_event = PullEvent.create(site_id: site.id)
     
     # check updated pull event
     pull_event.fail("another pull is in progress")

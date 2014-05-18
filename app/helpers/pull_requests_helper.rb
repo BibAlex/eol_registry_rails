@@ -9,13 +9,13 @@ module PullRequestsHelper
 private
 
   def create_pull_event(site_id, latest_successful_push_uuid)
-    pull_event = PullEvent.new  # create the pull
-    pull_event.site_id = site_id
-    pull_event.pull_at = DateTime.now
-    pull_event.state_uuid = latest_successful_push_uuid
-    pull_event.save
-    pull_event.update_attributes(:file_url => "/files/#{pull_event.id}.json", :file_md5_hash => "/files/#{pull_event.id}.md5")
-    pull_event
+    # create the pull
+    pull_event = PullEvent.create(
+    site_id: site_id,
+    pull_at: DateTime.now,
+    state_uuid: latest_successful_push_uuid
+    )
+    pull_event.update_attributes(file_url: "/files/#{pull_event.id}.json", file_md5_hash: "/files/#{pull_event.id}.md5")
   end
   
   def create_pull_files(pull_event_id, site)

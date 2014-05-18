@@ -2,28 +2,21 @@ class InsertSites < ActiveRecord::Migration
   def up
 
     # Create Empty Push
-    pr = PushRequest.new
-    pr.success = 1
-    pr.received_at = DateTime.now
-    pr.success_at = DateTime.now
-    pr.save
+    pr = PushRequest.create(success: 1,
+                            received_at: DateTime.now,
+                            success_at: DateTime.now)
 
     # Now create MBL site
-    s = Site.new
-    s.name = 'MBL'
-    s.url = 'http://localhost:3001'
-    s.response_url = 'http://localhost:3001/sync_event_update'
-    s.current_uuid = pr.uuid
-    s.save
-
+    Site.create(name: 'MBL',
+                url: 'http://localhost:3001',
+                response_url: 'http://localhost:3001/sync_event_update',
+                current_uuid: pr.uuid)
+                
     # Now create MBL site
-    s = Site.new
-    s.name = 'BA'
-    s.url = 'http://localhost:3002'
-    s.response_url = 'http://localhost:3002/sync_event_update'
-    s.current_uuid = pr.uuid
-    s.save
-
+    Site.create(name: 'BA',
+                url: 'http://localhost:3002',
+                response_url: 'http://localhost:3002/sync_event_update',
+                current_uuid: pr.uuid)
   end
 
   def down

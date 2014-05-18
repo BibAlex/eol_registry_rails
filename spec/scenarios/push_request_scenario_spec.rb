@@ -7,9 +7,7 @@ describe PushRequest do
   end
 
   it 'should send success after successfull push' do
-    push_request = PushRequest.new
-    push_request.success = 1
-    push_request.save
+    push_request = PushRequest.create(push_request.success = 1)
 
     uuid = push_request.uuid
 
@@ -19,14 +17,11 @@ describe PushRequest do
 
   it 'should accept push and send uuid' do
     # create a site
-    site = Site.gen(:auth_code => "test_123")
+    site = Site.gen(auth_code: "test_123")
 
     # create an empty push
 
-    push_request = PushRequest.new
-    push_request.success = 1
-    push_request.save
-
+    push_request = PushRequest.create(push_request.success = 1)
     uuid = push_request.uuid
 
     # assign the new uuid to the site
