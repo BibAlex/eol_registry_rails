@@ -5,17 +5,11 @@ class PullEvent < ActiveRecord::Base
   belongs_to :site
   
   def succeed(site, uuid)
-    self.success = true
-    self.success_at = DateTime.now
-    self.save
-    site.current_uuid = uuid
-    site.save
+    self.update_attributes(success: true, success_at: DateTime.now)
+    site.update_attribute(:current_uuid, uuid)
   end
   
   def fail(reason)
-    self.success = false
-    self.failed_at = DateTime.now
-    self.failed_reason = reason
-    self.save
+    self.update_attributes(success: false, failed_at: DateTime.now, failed_reason: reason)
   end
 end
