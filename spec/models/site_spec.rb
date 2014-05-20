@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Site do
+  
+  before(:all) do
+    truncate_all_tables      
+  end
 
   describe "test site associations" do
     it "should has many to pull event" do

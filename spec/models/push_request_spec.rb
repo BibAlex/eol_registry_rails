@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe PushRequest do
+  
+  before(:all) do
+    truncate_all_tables      
+  end
 
   describe "test push request associations" do
     it "should belongs to site" do

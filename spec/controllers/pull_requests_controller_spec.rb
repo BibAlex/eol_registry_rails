@@ -5,6 +5,7 @@ describe PullRequestsController do
   describe "GET 'pull'" do
 
     before(:all) do
+      truncate_all_tables
       @site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_123")
       @empty_push = PushRequest.create(:success => true, :uuid => "uuid_123")
       @push_site = Site.create(:auth_code => "auth_2", :current_uuid => "uuid_124")
@@ -54,18 +55,12 @@ describe PullRequestsController do
       get 'pull', :auth_code => "auth_1", :current_uuid => "uuid_123"
       expect(response.code).to eq("405") # response code '405' Another pull is in progress
     end
-    
-    after(:all) do
-      @site.destroy
-      @empty_push.destroy
-      @push_site.destroy
-    end
-    
   end
 
   describe "GET 'report'" do
 
     before(:all) do
+      truncate_all_tables
       @site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_123")
     end
 
@@ -125,10 +120,6 @@ describe PullRequestsController do
       pull_event = PullEvent.create(:site_id => @site.id, :state_uuid => "uuid_123", :success => true)
       get 'report', :auth_code => "auth_1", :uuid => "uuid_123", :reason => "", :success => "1"
       expect(response.code).to eq("406") # response code '406' Pull has already been completed
-    end
-    
-    after(:all) do
-      @site.destroy
     end
   end
 

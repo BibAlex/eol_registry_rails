@@ -1,7 +1,11 @@
 require 'spec_helper'
 
 describe PullEvent do
-
+  
+  before(:all) do
+    truncate_all_tables      
+  end
+   
   describe "test pull event associations" do
     it "should belongs to site" do
       t = PullEvent.reflect_on_association(:site)

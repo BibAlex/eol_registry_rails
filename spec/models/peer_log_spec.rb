@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe PeerLog do
+  
+  before(:all) do
+      truncate_all_tables      
+  end
 
   describe "test peer log associations" do
     it "should belongs to push request" do
@@ -64,16 +68,5 @@ describe PeerLog do
       combined_peer_logs = PeerLog.combine_logs_in_one_json(PeerLog.new_logs_for_site(@second_site))
       expect(combined_peer_logs.count).to eq(2)
     end   
-    
-    after(:all) do
-      @action.destroy
-      @type.destroy
-      @first_site.destroy
-      @second_site.destroy
-      @empty_push.destroy
-      @first_site_push.destroy
-      @first_peer_log.destroy
-      @second_peer_log.destroy
-    end
   end
 end

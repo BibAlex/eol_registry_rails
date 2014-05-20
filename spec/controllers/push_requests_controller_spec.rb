@@ -5,6 +5,7 @@ describe PushRequestsController do
   describe "GET 'create'" do
 
     before(:all) do
+      truncate_all_tables
       @site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_123")
       @empty_push = PushRequest.create(:success => true, :uuid => "uuid_123")
     end
@@ -98,17 +99,12 @@ describe PushRequestsController do
                      :file_md5_hash => "file.md5"
       expect(response.code).to eq("409") # response code '409' pull first
     end
-    
-    after(:all) do
-      @site.destroy
-      @empty_push.destroy
-    end
-    
   end
 
   describe "GET 'show'" do
 
     before(:all) do
+      truncate_all_tables
       @site = Site.create(:auth_code => "auth_1", :current_uuid => "uuid_124")
       @empty_push = PushRequest.create(:success => true, :uuid => "uuid_123")
       @successful_push_request = PushRequest.create(:site_id => @site.id, :success => true, :uuid => "uuid_124")
@@ -137,11 +133,5 @@ describe PushRequestsController do
       get 'show', :uuid => "uuid_126"
       expect(response.code).to eq("401") # response code '401' invalid uuid
     end
-    
-     after(:all) do
-        @site.destroy
-        @empty_push.destroy
-        @successful_push_request.destroy
-      end
   end
 end
